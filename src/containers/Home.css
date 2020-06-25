@@ -11,3 +11,118 @@
 .Home .lander p {
   color: #999;
 }
+
+.Home .notes h4 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  overflow: hidden;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.Home .notes p {
+  color: #666;
+}
+
+.note-card {
+  position: relative;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  height: 150px;
+  margin-bottom: 20px;
+  padding: 0px 10px 10px 10px;
+}
+
+.note-card .note-edit {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  right: 35px;
+  display: none;
+}
+
+.note-card .note-delete {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  right: 10px;
+  display: none;
+}
+
+.note-card .action-bar {
+  width: 100%;
+  height: 15px;
+  position: fixed;
+  bottom: 5px;
+}
+
+.note-card:hover {
+  box-shadow: 10px 25px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.note-card:hover .note-edit {
+  display: block;
+}
+
+.note-card:hover .note-delete {
+  display: block;
+}
+
+.note-card h3 {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-top: 3px;
+  margin-bottom: 15px;
+  height: 80%;
+  overflow: scroll;
+}
+
+textarea#note-dialog {
+  width: 100%;
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+}
+
+.Home {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  /* overflow: hidden; */
+}
+
+@media screen and (min-width: 30em) {
+  .note-card {
+    flex: 0 1 100%;
+  }
+  .modal-dialog {
+    width: 300px;
+    margin: auto auto;
+  }
+}
+
+@media screen and (min-width: 40em) {
+  .note-card {
+    flex: 0 1 calc(50% - 1em);
+  }
+  .modal-dialog {
+    width: 350px;
+  }
+}
+
+@media screen and (min-width: 60em) {
+  .note-card {
+    flex: 0 1 calc(25% - 1em);
+  }
+  .modal-dialog {
+    width: 500px;
+  }
+}
