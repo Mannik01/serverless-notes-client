@@ -1,22 +1,18 @@
-import React, { useRef, forwardRef } from "react";
-import { useHistory } from "react-router-dom";
+import React, { forwardRef } from "react";
 import { API } from "aws-amplify";
 import onError from "../libs/errorLib";
 import { Modal, Button } from "react-bootstrap";
 
-const NoteModal = (props, editedNoteRef) => {
-  const newNoteRef = useRef("");
-
+const NoteModal = (props, noteRef) => {
   async function handleSubmit(event) {
     event.preventDefault();
 
     try {
-      const noteToSave = newNoteRef.current.value;
+      const noteToSave = noteRef.current.value;
       await createNote({ content: noteToSave });
       props.setDisplay(false);
       props.updateNewNoteTracker(!props.newNoteTracker);
       props.history.push("/");
-      console.log("should have reloaded");
     } catch (e) {
       onError(e);
     }
@@ -39,7 +35,7 @@ const NoteModal = (props, editedNoteRef) => {
 
   async function handleSave(event) {
     event.preventDefault();
-    const noteToSave = editedNoteRef.current.value;
+    const noteToSave = noteRef.current.value;
     try {
       await saveNote({ content: noteToSave });
       props.setDisplay(false);
@@ -64,7 +60,7 @@ const NoteModal = (props, editedNoteRef) => {
       </Modal.Header>
       <Modal.Body>
         <textarea
-          ref={editedNoteRef === null ? newNoteRef : editedNoteRef}
+          ref={noteRef}
           defaultValue={
             props.cardContent === undefined ? "" : props.cardContent
           }

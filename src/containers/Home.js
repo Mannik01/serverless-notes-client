@@ -15,7 +15,6 @@ export default function Home() {
       if (!isAuthenticated) return;
 
       try {
-        console.log("loading notes");
         const notes = await loadNotes();
         setNotes(notes);
       } catch (e) {
@@ -36,7 +35,11 @@ export default function Home() {
     return (
       <div className="lander">
         <h1>Scratch</h1>
-        <p>A simple note taking app</p>
+        <p>
+          A simple note taking app.
+          <br />
+          Please login or signup to start.
+        </p>
       </div>
     );
   }

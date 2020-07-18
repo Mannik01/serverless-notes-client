@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { Button } from "react-bootstrap";
 import { API } from "aws-amplify";
 import onError from "../libs/errorLib";
 import NoteModal from "../components/Modal";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
@@ -14,10 +14,10 @@ function App() {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [display, setDisplay] = useState(false);
   const history = useHistory();
+  const newNoteRef = useRef("");
   const [newNoteTracker, updateNewNoteTracker] = useState(false);
 
   useEffect(() => {
-    console.log("re-render on App.js");
     onLoad();
   }, [newNoteTracker]);
 
@@ -42,6 +42,9 @@ function App() {
 
   function handleCreateNote() {
     setDisplay(true);
+    setTimeout(() => {
+      newNoteRef.current.focus();
+    }, 500);
   }
 
   function getModalProps() {
@@ -94,7 +97,7 @@ function App() {
           }}
         >
           <Routes />
-          <NoteModal {...getModalProps()} ref={null} />
+          <NoteModal {...getModalProps()} ref={newNoteRef} />
         </AppContext.Provider>
       </div>
     )
