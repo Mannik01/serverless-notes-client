@@ -24,15 +24,87 @@
   color: #666;
 }
 
+textarea#note-dialog {
+  width: 100%;
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+}
+
+.modal-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+}
+
+.modal-dialog .modal-body {
+  height: 200px;
+}
+
+.modal-dialog textarea {
+  height: 100%;
+  white-space: pre-wrap;
+}
+
+.Home {
+  display: grid;
+}
+
 .note-card {
   position: relative;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
-  height: 150px;
-  margin-bottom: 20px;
+  height: 200px;
   padding: 0px 10px 10px 10px;
+}
+
+@media screen and (min-width: 30em) {
+  .Home {
+    grid-template-columns: repeat(1, 1fr);
+    row-gap: 1em;
+  }
+  .modal-dialog {
+    width: 70vw;
+  }
+}
+
+@media screen and (min-width: 40em) {
+  .Home {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 10px;
+    row-gap: 1em;
+  }
+  .modal-dialog {
+    width: 70vw;
+  }
+}
+
+@media screen and (min-width: 60em) {
+  .Home {
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 10px;
+    row-gap: 1em;
+  }
+  .modal-dialog {
+    width: 50vw;
+  }
+}
+
+.note-card .note-view {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  right: 60px;
+  display: none;
 }
 
 .note-card .note-edit {
@@ -62,6 +134,10 @@
   box-shadow: 10px 25px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
+.note-card:hover .note-view {
+  display: block;
+}
+
 .note-card:hover .note-edit {
   display: block;
 }
@@ -77,52 +153,5 @@
   margin-bottom: 15px;
   height: 80%;
   overflow: scroll;
-}
-
-textarea#note-dialog {
-  width: 100%;
-  border: none;
-  overflow: auto;
-  outline: none;
-
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-
-  resize: none;
-}
-
-.Home {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  /* overflow: hidden; */
-}
-
-@media screen and (min-width: 30em) {
-  .note-card {
-    flex: 0 1 100%;
-  }
-  .modal-dialog {
-    width: 300px;
-    margin: auto auto;
-  }
-}
-
-@media screen and (min-width: 40em) {
-  .note-card {
-    flex: 0 1 calc(50% - 1em);
-  }
-  .modal-dialog {
-    width: 350px;
-  }
-}
-
-@media screen and (min-width: 60em) {
-  .note-card {
-    flex: 0 1 calc(25% - 1em);
-  }
-  .modal-dialog {
-    width: 500px;
-  }
+  white-space: pre-wrap;
 }

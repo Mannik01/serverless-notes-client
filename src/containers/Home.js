@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
-import { ListGroupItem } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { useAppContext } from "../libs/contextLib";
 import onError from "../libs/errorLib";
@@ -10,7 +7,7 @@ import "./Home.css";
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
-  const { isAuthenticated } = useAppContext();
+  const { isAuthenticated, newNoteTracker } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,6 +15,7 @@ export default function Home() {
       if (!isAuthenticated) return;
 
       try {
+        console.log("loading notes");
         const notes = await loadNotes();
         setNotes(notes);
       } catch (e) {
@@ -28,7 +26,7 @@ export default function Home() {
     }
 
     onLoad();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, newNoteTracker]);
 
   function loadNotes() {
     return API.get("notes", "/notes");
@@ -43,8 +41,15 @@ export default function Home() {
     );
   }
 
+  const sortNotes = notes => {
+    return notes.sort(
+      (currentNote, nextNote) =>
+        parseFloat(nextNote.createdAt) - parseFloat(currentNote.createdAt)
+    );
+  };
+
   function renderNotesList(notes) {
-    return [{}].concat(notes).map(
+    return [{}].concat(sortNotes(notes)).map(
       (note, i) =>
         i !== 0 ? (
           // <LinkContainer key={note.noteId} to={`/notes/${note.noteId}`}>

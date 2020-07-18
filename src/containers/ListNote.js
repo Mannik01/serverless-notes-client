@@ -1,37 +1,25 @@
 import React, { useState, useRef } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { API } from "aws-amplify";
 import onError from "../libs/errorLib";
+import NoteModal from "../components/Modal";
 import "./ListNote.css";
 
 export default function ListNote(props) {
   const noteCardRef = useRef(null);
   const editedNoteRef = useRef("");
-  const [cardContent, setCardContent] = useState(
-    props.note.content.trim().split("\n")[0]
-  );
+  const [cardContent, setCardContent] = useState(props.note.content.trim());
   const [display, setDisplay] = useState(false);
   const noteId = props.note.noteId;
 
-  const handleClose = () => setDisplay(false);
-  const handleOpen = () => setDisplay(true);
-
-  async function handleSave(event) {
+  const handleOpen = event => {
     event.preventDefault();
-    const noteToSave = editedNoteRef.current.value;
-    try {
-      await saveNote({ content: noteToSave });
-      setDisplay(false);
-      setCardContent(noteToSave);
-    } catch (error) {
-      onError(error);
-    }
-  }
-
-  const saveNote = note => {
-    return API.put("notes", `/notes/${noteId}`, {
-      body: note
-    });
+    setDisplay(true);
+    setTimeout(() => {
+      const noteLength = editedNoteRef.current.value.length;
+      editedNoteRef.current.focus();
+      editedNoteRef.current.setSelectionRange(noteLength, noteLength);
+    }, 500);
   };
 
   async function handleDelete(event) {
@@ -48,6 +36,17 @@ export default function ListNote(props) {
   const deleteNote = () => {
     return API.del("notes", `/notes/${noteId}`);
   };
+
+  function getModalProps() {
+    return {
+      cardContent,
+      setCardContent,
+      noteId,
+      display,
+      setDisplay,
+      modalType: "Edit"
+    };
+  }
 
   return (
     <div className="note-card" ref={noteCardRef}>
@@ -68,26 +67,7 @@ export default function ListNote(props) {
           />
         </div>
       </div>
-      <Modal show={display} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <textarea
-            ref={editedNoteRef}
-            defaultValue={cardContent}
-            id="note-dialog"
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSave}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <NoteModal {...getModalProps()} ref={editedNoteRef} />
     </div>
   );
 }

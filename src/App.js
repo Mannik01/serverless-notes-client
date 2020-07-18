@@ -6,16 +6,20 @@ import { Auth } from "aws-amplify";
 import { AppContext } from "./libs/contextLib";
 import onError from "./libs/errorLib";
 import Routes from "./Routes";
+import NoteModal from "../src/components/Modal";
 import "./App.css";
 
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [display, setDisplay] = useState(false);
   const history = useHistory();
+  const [newNoteTracker, updateNewNoteTracker] = useState(false);
 
   useEffect(() => {
+    console.log("re-render on App.js");
     onLoad();
-  }, []);
+  }, [newNoteTracker]);
 
   async function onLoad() {
     try {
@@ -37,7 +41,18 @@ function App() {
   }
 
   function handleCreateNote() {
-    history.push("/notes/new");
+    setDisplay(true);
+  }
+
+  function getModalProps() {
+    return {
+      display,
+      setDisplay,
+      modalType: "Create",
+      history,
+      newNoteTracker,
+      updateNewNoteTracker
+    };
   }
 
   return (
@@ -70,8 +85,16 @@ function App() {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+        <AppContext.Provider
+          value={{
+            isAuthenticated,
+            userHasAuthenticated,
+            newNoteTracker,
+            updateNewNoteTracker
+          }}
+        >
           <Routes />
+          <NoteModal {...getModalProps()} ref={null} />
         </AppContext.Provider>
       </div>
     )

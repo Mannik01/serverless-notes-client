@@ -19,9 +19,6 @@ const Routes = () => {
       <Route exact path="/signup">
         <Signup />
       </Route>
-      <Route exact path="/notes/new">
-        <NewNote />
-      </Route>
       <Route exact path="/notes/:id">
         <Notes />
       </Route>
